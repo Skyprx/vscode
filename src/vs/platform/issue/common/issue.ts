@@ -17,8 +17,7 @@ export interface WindowData {
 export const enum IssueType {
 	Bug,
 	PerformanceIssue,
-	FeatureRequest,
-	SettingsSearchIssue
+	FeatureRequest
 }
 
 export interface IssueReporterStyles extends WindowStyles {
@@ -56,6 +55,8 @@ export interface IssueReporterData extends WindowData {
 	enabledExtensions: IssueReporterExtensionData[];
 	issueType?: IssueType;
 	extensionId?: string;
+	experiments?: string;
+	githubAccessToken: string;
 	readonly issueTitle?: string;
 	readonly issueBody?: string;
 }
@@ -66,29 +67,23 @@ export interface ISettingSearchResult {
 	score: number;
 }
 
-export interface ISettingsSearchIssueReporterData extends IssueReporterData {
-	issueType: IssueType.SettingsSearchIssue;
-	actualSearchResults: ISettingSearchResult[];
-	query: string;
-	filterResultCount: number;
-}
-
 export interface IssueReporterFeatures {
 }
 
 export interface ProcessExplorerStyles extends WindowStyles {
 	hoverBackground?: string;
 	hoverForeground?: string;
-	highlightForeground?: string;
 }
 
 export interface ProcessExplorerData extends WindowData {
 	pid: number;
 	styles: ProcessExplorerStyles;
+	platform: 'win32' | 'darwin' | 'linux';
+	applicationName: string;
 }
 
 export interface ICommonIssueService {
-	_serviceBrand: undefined;
+	readonly _serviceBrand: undefined;
 	openReporter(data: IssueReporterData): Promise<void>;
 	openProcessExplorer(data: ProcessExplorerData): Promise<void>;
 	getSystemStatus(): Promise<string>;
